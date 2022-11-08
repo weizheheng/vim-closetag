@@ -16,7 +16,8 @@ fun! s:Initial()
     call s:Declare('g:closetag_xhtml_filenames', '*.xhtml')
 
     call s:Declare('g:closetag_shortcut', '>')
-    call s:Declare('g:closetag_close_shortcut', '')
+    " Force it to use mine
+    let g:closetag_close_shortcut = ",>"
 
     call s:Declare('g:closetag_emptyTags_caseSensitive', 0)
 
@@ -261,7 +262,9 @@ fun! s:CloseIt()
                     if l:line > 0 && l:line != line('.')
                         exe "normal! " . l:line . "gg"
                     en
-                    if exists('b:did_indent') && b:did_indent == 1
+                    if &filetype == "typescriptreact"
+                        exe "normal! 2f>a\<Cr>\<Esc>k$i\<Cr>\<Esc>>>$"
+                    elseif exists('b:did_indent') && b:did_indent == 1
                         exe "normal! 2f>a\<Cr>\<Esc>k$i\<Cr>\<Esc>$"
                     else
                         exe "normal! 2f>a\<Cr>\<Esc>k$i\<Cr>\<Esc>>>$"
